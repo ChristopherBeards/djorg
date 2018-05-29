@@ -35,6 +35,8 @@ ALLOWED_HOSTS = hosts_array
 # Application definition
 
 INSTALLED_APPS = [
+    'notes',
+    'rest_framework',
     'bookmark.apps.BookmarkConfig',
     'django.contrib.admin',
     'django.contrib.auth',
@@ -80,7 +82,8 @@ WSGI_APPLICATION = 'djorg.wsgi.application'
 # https://docs.djangoproject.com/en/2.0/ref/settings/#databases
 
 DATABASES = {}
-DATABASES['default'] = dj_database_url.config(conn_max_age=600)
+# DATABASES['default'] = dj_database_url.config(conn_max_age=600)
+DATABASES['default'] = dj_database_url.config(default=config('DATABASE_URL'))
 
 
 # Password validation
@@ -120,3 +123,12 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/2.0/howto/static-files/
 
 STATIC_URL = '/static/'
+
+# Django REST framework
+REST_FRAMEWORK = {
+  'DEFAULT_PERMISSION_CLASSES': [
+    # Use Django's standard django.contrib.auth permission,
+    # or allow read-only access for unauthenticated users
+    'rest_framework.permissions.DjangoModelPermissionsOrAnonReadOnly'
+  ]
+}
