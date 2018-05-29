@@ -12,6 +12,9 @@ class Note(models.Model):
   created_at = models.DateTimeField(auto_now_add=True)
   last_modified = models.DateTimeField(auto_now=True)
 
+  def __str__(self):
+      return self.title
+
   # Stretch goals
   # Tages/Categories
   # Sharing Notes between Users
