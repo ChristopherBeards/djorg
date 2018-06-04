@@ -38,6 +38,7 @@ INSTALLED_APPS = [
     'corsheaders',
     'notes',
     'rest_framework',
+    'rest_framework.authtoken',
     'graphene_django',
     'bookmark.apps.BookmarkConfig',
     'django.contrib.admin',
@@ -134,7 +135,13 @@ REST_FRAMEWORK = {
     # Use Django's standard django.contrib.auth permission,
     # or allow read-only access for unauthenticated users
     'rest_framework.permissions.DjangoModelPermissionsOrAnonReadOnly'
-  ]
+  ],
+
+  'DEFAULT_AUTHENTICATION_CLASSES': (
+      'rest_framework.authentication.BasicAuthentication',
+      'rest_framework.authentication.SessionAuthentication',
+      'rest_framework.authentication.TokenAuthentication',
+  ),
 }
 
 # Graphene
