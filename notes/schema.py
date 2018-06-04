@@ -25,5 +25,28 @@ class Query(graphene.ObjectType):
     else:
       return NoteModel.objects.filter(user=user)
 
+# Mutations
+class CreateNote(graphene.Mutation):
+    title = graphene.String()
+    content = graphene.String()
+
+    #2
+    class Arguments:
+        title = graphene.String()
+        content = graphene.String()
+
+    #3
+    def mutate(self, info, title, content):
+        note = NoteModel(title=title, content=content)
+        note.save()
+
+        return CreateNote(
+            title=note.title,
+            content=note.content,
+        )
+
+class Mutation(graphene.ObjectType):
+    create_note = CreateNote.Field()
+
 # Add a schema and attach the query
-schema = graphene.Schema(query=Query)
+schema = graphene.Schema(query=Query, mutation=Mutation)
