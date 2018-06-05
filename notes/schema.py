@@ -30,19 +30,32 @@ class CreateNote(graphene.Mutation):
     title = graphene.String()
     content = graphene.String()
 
-    #2
     class Arguments:
         title = graphene.String()
         content = graphene.String()
 
-    #3
+    # Output
+    ok = graphene.Boolean()
+    note = graphene.Field(Note)
+
     def mutate(self, info, title, content):
-        note = NoteModel(title=title, content=content)
-        note.save()
+        user = info.context.user
+
+
+        if user.is_anonymous:
+          is_ok = False
+          return CreateNote(ok=is_ok)
+
+        else:
+          note = NoteModel(title=title, content=content, user=user)
+          note.save()
+          is_ok = True
 
         return CreateNote(
-            title=note.title,
-            content=note.content,
+            # title=note.title,
+            # content=note.content,
+            note=note, 
+            ok=is_ok
         )
 
 class Mutation(graphene.ObjectType):
